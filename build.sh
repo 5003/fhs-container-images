@@ -8,6 +8,7 @@ excluded_dirs() {
       export $1=${i#*/}
       [ -z $3 ] &&
 
+        export name=${IMAGENAME_PREFIX}${name}
         docker build ${build_opts} --tag ${name}:${tag} . &&
           echo -e "Build succeeded: $PWD\n"
 
