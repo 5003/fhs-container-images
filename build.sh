@@ -8,9 +8,9 @@ excluded_dirs() {
       export $1=${i#*/}
       [ -z $3 ] &&
 
-        export name=${IMAGENAME_PREFIX}${name}
-        docker build ${build_opts} --tag ${name}:${tag} . &&
-          echo -e "Build succeeded: $PWD\n"
+        export imagename="${IMAGENAME_PREFIX}${name#*-}:${tag#*-}"
+        docker build ${build_opts} --tag ${imagename} . &&
+          docker push ${imagename}
 
       ${@:2}
     popd > /dev/null
