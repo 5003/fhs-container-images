@@ -1,3 +1,12 @@
+BUILDER_REPO=$1
+BUILDER_REPO_NAME=${BUILDER_REPO##*/}
+BUILDER_REPO_NAME=${BUILDER_REPO_NAME%.*}
+
 sshpass -e ssh ${USERNAME}@${DOMAIN} "
 uname --all
+  test ! -d $BUILDER_REPO_NAME && git clone $BUILDER_REPO $BUILDER_REPO_NAME
+  pushd $BUILDER_REPO_NAME > /dev/null &&
+    git pull &&
+    . ./building_immediate_images.sh
+  popd > /dev/null
 "
